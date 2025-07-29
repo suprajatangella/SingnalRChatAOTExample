@@ -20,9 +20,8 @@ steps:
 - task: DotNetCoreCLI@2
   displayName: 'Build with Native AOT'
   inputs:
-    azureSubscription: 'Azure subscription 1(1)(6e8f92a1-933a-4c66-b0b2-78375012c12c)'
     command: 'publish'
-    publishWebProjects: true
+    projects: '**/*ChatAOTExample.csproj'
     arguments: '--configuration $(buildConfiguration) --runtime $(runtimeIdentifier) --self-contained true /p:PublishAot=true /p:PublishTrimmed=true /p:PublishSingleFile=true --output $(outputFolder)'
 - task: AzureWebApp@1
   displayName: 'Deploy to Azure App Service'
