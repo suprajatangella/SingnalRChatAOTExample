@@ -13,7 +13,8 @@ variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-
+  runtimeIdentifier: 'win-x64' # or linux-x64
+  outputFolder: '$(Build.ArtifactStagingDirectory)/publish'
 steps:
 
 - task: DotNetCoreCLI@2
