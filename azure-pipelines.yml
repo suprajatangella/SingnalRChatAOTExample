@@ -15,7 +15,15 @@ variables:
   buildConfiguration: 'Release'
   runtimeIdentifier: 'win-x64' # or linux-x64
   outputFolder: '$(Build.ArtifactStagingDirectory)/publish'
+
 steps:
+
+- task: UseDotNet@2
+  displayName: 'Install .NET Core SDK'
+  inputs:
+    version: 9.x
+    performMultiLevelLookup: true
+    includePreviewVersions: true # Required for preview versions
 
 - task: DotNetCoreCLI@2
   displayName: 'Build with Native AOT'
