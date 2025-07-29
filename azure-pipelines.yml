@@ -1,0 +1,35 @@
+# ASP.NET Core (.NET Framework)
+# Build and test ASP.NET Core projects targeting the full .NET Framework.
+# Add steps that publish symbols, save build artifacts, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+
+trigger:
+- master
+
+pool:
+  name: Default
+
+variables:
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+
+steps:
+
+# ⚙️ Step 2: Build with AOT
+- task: DotNetCoreCLI@2
+  displayName: 'Build with Native AOT'
+  inputs:
+    command: 'publish'
+    projects: '**/*.csproj'
+    arguments: '--configuration $(buildConfiguration) --runtime $(runtimeIdentifier) --self-contained true /p:PublishAot=true /p:PublishTrimmed=true /p:PublishSingleFile=true --output $(outputFolder)'
+
+
+- task: AzureWebApp@1
+  inputs:
+    azureSubscription: 'Azure subscription 1(1)(6e8f92a1-933a-4c66-b0b2-78375012c12c)'
+    appType: 'webApp'
+    appName: 'SinglarRChatApp'
+    package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+    deploymentMethod: 'auto'
+
